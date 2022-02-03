@@ -1,12 +1,14 @@
+typedef union content 
+{
+	char *value;					//一般值 
+	struct json_domain* object;		//对象 
+}JSONContent;
+
 typedef struct json_domain
 {
 	char* name;							//对象名 
 	int num;							//对象数量（为-1时表示对象的值不为为对象） 
-	union content 
-	{
-		char *value;					//一般值 
-		struct json_domain* object;		//对象 
-	}*domain;			//对象的值 
+	JSONContent *domain;						//对象的值 
 } JSONData; //JSON数据结构 
 
 //NULL from stdio.h
@@ -26,4 +28,13 @@ typedef struct json_domain
 JSONData* StrtoJSON(const char* string);
 
 //释放JSONData
-void freeJSON(JSONData* data); 
+void freeJSON(JSONData* data);
+
+/*
+获取对象的值
+@data		JSON数据 
+@name		JSON对象名
+@val1		写入的值
+@val2		写入的对象 
+*/
+int getJSONVal(JSONData* data, const char* name, char* val1, JSONData* val2);
